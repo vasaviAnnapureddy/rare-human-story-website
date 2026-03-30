@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Rare Human Being</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#020617;
+overflow-x:hidden;
+}
+
+/* floating hearts */
+
+.heart{
+position:fixed;
+bottom:-60px;
+font-size:28px;
+animation:float 12s linear infinite;
+opacity:0.8;
+pointer-events:none;
+z-index:0;
+color:#ff4d6d; /* pink hearts */
+text-shadow:0 0 8px rgba(255,105,135,0.6);
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+100%{transform:translateY(-120vh);}
+}
+
+.heart:nth-child(1){left:15%;}
+.heart:nth-child(2){left:35%;}
+.heart:nth-child(3){left:65%;}
+.heart:nth-child(4){left:85%;}
+
+/* card */
+
+.card{
+background:rgba(255,255,255,0.96);
+padding:40px;
+border-radius:18px;
+box-shadow:0 10px 35px rgba(0,0,0,0.35);
+margin:60px auto;
+max-width:700px;
+font-size:18px;
+line-height:1.6;
+color:#333;
+position:relative;
+z-index:5;
+}
+
+/* title */
+
+.title{
+font-size:34px;
+font-weight:700;
+text-align:center;
+color:#0a7a34;
+margin-bottom:20px;
+}
+
+/* quote */
+
+.quote{
+border-left:4px solid #0a7a34;
+padding-left:15px;
+font-style:italic;
+margin-top:15px;
+margin-bottom:15px;
+}
+
+.center{
+text-align:center;
+}
+
+/* button */
+
+button{
+background:#2563eb;
+color:white;
+border-radius:8px;
+padding:10px 18px;
+border:none;
+margin:10px;
+cursor:pointer;
+font-size:15px;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+/* mobile */
+
+@media(max-width:700px){
+
+.card{
+margin:20px;
+padding:25px;
+}
+
+.title{
+font-size:26px;
+}
+
+button{
+display:block;
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+
+<div id="app"></div>
+
+<script>
+
+let step=0
+
+function go(s){
+step=s
+render()
+}
+
+function render(){
+
+let html=""
+
+if(step==0){
+
+html+=`
+<div class="card">
+<div class="title">I Met A Rare Human Being</div>
+
+<p>-And strangely enough…</p>
+<p> it turned out to be you, ma'am.</p>
+
+<p>But before I explain why...</p>
+<p>I have one question.</p>
+
+<div class="center">
+<button onclick="go(3)">Shall I tell you why? (click here)</button>
+<button onclick="go(1)">Maybe another time (click here)</button>
+</div>
+
+</div>
+`
+}
+
+else if(step==1){
+
+html+=`
+<div class="card center">
+
+<p>That answer sounds exactly like you ma'am.</p>
+
+<p>But I waited years to explain this.</p>
+
+<p>Maybe give it 3 minutes, please?</p>
+
+<button onclick="go(3)">Alright… tell me</button>
+<button onclick="go(2)">Still not now</button>
+
+</div>
+`
+}
+
+else if(step==2){
+
+html+=`
+<div class="card center">
+
+<p>Right... this time there is only one option left.</p>
+
+<p>You successfully escaped until now ma'am but not anymore since I am going to tell the story anyway.</p>
+
+<button onclick="go(3)">Ok fine, tell me the story</button>
+
+</div>
+`
+}
+
+else if(step==3){
+
+html+=`
+<div class="card">
+
+<div class="title">Beginning of the Story</div>
+
+<p>Like many meaningful stories, this one also began with a little confusion.</p>
+
+<p>In the beginning, I respected you. But I did not fully understand you.</p>
+
+<button onclick="go(4)">Click here to see what I noticed</button>
+
+</div>
+`
+}
+
+else if(step==4){
+
+html+=`
+<div class="card">
+
+<div class="title">The Confusion I Had in the Beginning</div>
+
+<p>→ I had seen good teachers before you in my life ma'am, who delivered subjects clearly and kindly but I had never seen someone who carried student's futures with such seriousness ma'am.</p>
+
+<p>→ When you solved doubts in groups instead of individually, I wondered why. Later I understood, you were trying to clear as many minds as possible within limited time.</p>
+
+<p>→ When you said I would regret leaving your section, I questioned it. With time, I realized you simply wanted me to become part of the best version of myself.</p>
+
+<button onclick="go(5)">Click here to see when my doubts turned into respect, ma'am</button>
+
+</div>
+`
+}
+
+else if(step==5){
+
+html+=`
+<div class="card">
+
+<div class="title">When Doubts Disappeared</div>
+
+<p>Things I noticed in my journey with you, ma'am:</p>
+
+<p>→ You had dengue, yet you came to class.</p>
+
+<p>→ You sat from 9:00 a.m. to 9:00 p.m. for students who were struggling to pass 11th standard.</p>
+
+<p>→ When doctors asked you to rest because of leg pain, you still continued teaching. That's who you are ma'am.</p>
+
+<p>→ During corona, you taught students even from a car and from a hospital.</p>
+
+<p>→ I still remember one class you taught under a tree, ma'am. Now whenever I think about it, I smile to myself, wondering why that moment stayed so clearly in my memory.</p>
+
+<p>These incidents erased my doubts and deepened my respect for you, making me want to understand you even better.</p>
+
+<button onclick="go(6)">What helped me understand you the most?</button>
+
+</div>
+`
+}
+
+else if(step==6){
+
+html+=`
+<div class="card">
+
+<div class="title">The Values You Instilled</div>
+
+<p>→ When you entered class, everything became serious. No unnecessary talking. No wasted time. Silence during study hours.</p>
+
+<p>At first, it felt strict. Later, I understood you were building focus.</p>
+
+<p>→ You followed up every week. You reminded us of responsibility.</p>
+
+<p>Before making decisions, you would enquire, observe, verify and then act.</p>
+
+<p>You never reacted blindly. You dealt with students differently, according to what each person needed.</p>
+
+<p>→ Your words still stay with me:</p>
+
+<div class="quote">
+"Think like a boy, work like a girl."<br>
+"Don't just work hard — work smart."<br>
+"Health comes first, then education."
+</div>
+
+<p>You did not just teach mathematics. You shaped my thinking.</p>
+
+<button onclick="go(7)">The day that changed how I see life</button>
+
+</div>
+`
+}
+
+else if(step==7){
+
+html+=`
+<div class="card">
+
+<div class="title">The Day I Truly Understood Life</div>
+
+<p>After my results, I apologized for not meeting your expectations.</p>
+
+<div class="quote">
+"There is no use shouting now. I shouted before so you could improve."
+</div>
+
+<p><strong>You speak only when it matters, and every word you say carries meaning.</strong></p>
+
+<p>→ On that same day, when our batch did not achieve the results you had worked for, I saw tears in your eyes.</p>
+
+<p><strong>You had sacrificed time, comfort, and health. You had given your full effort. Yet the outcome was not what you hoped for.</strong></p>
+
+<p>Hard work does not always guarantee the result we expect. But it is never wasted.</p>
+
+<p>Watching you accept that moment with dignity changed how I see both success and failure.</p>
+
+<button onclick="go(8)">Why you are rare?</button>
+
+</div>
+`
+}
+
+else if(step==8){
+
+html+=`
+<div class="card">
+
+<div class="title">Answer I Found For A Question I Carried For Years</div>
+
+<p>I used to ask myself sometimes, In a world where most people live only for themselves, is it possible to live for others?</p>
+
+<p>Soldiers in the Indian Army sacrifice for the country. That kind of courage is admirable. I know I may never become a soldier. But I also did not want to live only for myself.</p>
+
+<p>Watching you gave me another answer. You chose to serve through education.</p>
+
+<p>• You became a parent to students who were not your own.</p>
+<p>• You balanced discipline with care.</p>
+<p>• You asked students to play during breaks.</p>
+<p>• You encouraged yoga during exams so that we control our stress.</p>
+<p>• You carried seriousness without losing humanity.</p>
+
+<button onclick="go(9)">What you left in me?</button>
+
+</div>
+`
+}
+
+else if(step==9){
+
+html+=`
+<div class="card center">
+
+<div class="title">What You Left In Me</div>
+
+<p>Somewhere in your classroom, I learned that sincerity, discipline, and caring for others give life its real meaning, because helping others is what truly makes life purposeful.</p>
+
+<button onclick="go(10)">Finally, Final page</button>
+
+</div>
+`
+}
+
+else if(step==10){
+
+html+=`
+<div class="card center">
+
+<div class="title" style="color:#ff2b6b;">Happy Birthday, Ma'am</div>
+
+<img src="mam.jpg" width="180">
+
+<div class="quote">
+Some people teach chapters.<br>
+Some build chapters in others' lives.<br>
+<b>You built one in mine.</b>
+</div>
+
+<p>Thank you for being the rare human being I met.</p>
+
+<p>Also, Thank you for clicking through every page and completing my little story.</p>
+
+</div>
+`
+}
+
+document.getElementById("app").innerHTML=html
+
+}
+
+render()
+
+</script>
+
+</body>
+</html>
