@@ -1,401 +1,488 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Rare Human Being</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 
-body{
-margin:0;
-font-family:Arial;
-background:#020617;
-overflow-x:hidden;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
+*{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --gold:#c8a96e;
+  --green:#0a7a34;
+  --bg:#020617;
+  --card:#ffffff;
+  --text:#1a1a2e;
+  --soft:#4a4a6a;
 }
 
-/* floating hearts */
+html,body{
+  width:100%;
+  min-height:100vh;
+  background:var(--bg);
+  font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+}
 
+/* ── stars background ── */
+.stars{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+.star{
+  position:absolute;
+  width:2px;height:2px;
+  background:#fff;
+  border-radius:50%;
+  opacity:0;
+  animation:twinkle var(--d,4s) var(--delay,0s) infinite;
+}
+@keyframes twinkle{
+  0%,100%{opacity:0;}
+  50%{opacity:var(--op,0.6);}
+}
+
+/* ── floating hearts ── */
+.hearts-wrap{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  overflow:hidden;
+}
 .heart{
-position:fixed;
-bottom:-60px;
-font-size:28px;
-animation:float 12s linear infinite;
-opacity:0.8;
-pointer-events:none;
-z-index:0;
-color:#ff4d6d; /* pink hearts */
-text-shadow:0 0 8px rgba(255,105,135,0.6);
+  position:absolute;
+  bottom:-60px;
+  font-size:clamp(18px,4vw,28px);
+  animation:floatUp var(--dur,14s) var(--delay,0s) linear infinite;
+  opacity:0;
+  color:#ff4d6d;
+  filter:drop-shadow(0 0 6px rgba(255,77,109,0.5));
+}
+@keyframes floatUp{
+  0%{transform:translateY(0) rotate(-10deg);opacity:0;}
+  10%{opacity:0.85;}
+  90%{opacity:0.4;}
+  100%{transform:translateY(-110vh) rotate(10deg);opacity:0;}
 }
 
-@keyframes float{
-0%{transform:translateY(0);}
-100%{transform:translateY(-120vh);}
-}
-
-.heart:nth-child(1){left:15%;}
-.heart:nth-child(2){left:35%;}
-.heart:nth-child(3){left:65%;}
-.heart:nth-child(4){left:85%;}
-
-/* card */
-
-.card{
-  background:rgba(255,255,255,0.96);
-  padding:40px;
-  border-radius:18px;
-  box-shadow:0 10px 35px rgba(0,0,0,0.35);
-  margin:20px;        /* changed from large auto margin */
-  max-width:700px;
-  font-size:18px;
-  line-height:1.6;
-  color:#333;
+/* ── container ── */
+.container{
   position:relative;
   z-index:5;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:clamp(16px,5vw,40px) clamp(12px,4vw,24px);
 }
 
-/* title */
-
-.title{
-font-size:34px;
-font-weight:700;
-text-align:center;
-color:#0a7a34;
-margin-bottom:20px;
-}
-
-/* quote */
-
-.quote{
-border-left:4px solid #0a7a34;
-padding-left:15px;
-font-style:italic;
-margin-top:15px;
-margin-bottom:15px;
-}
-
-.center{
-text-align:center;
-}
-
-/* button */
-
-button{
-background:#2563eb;
-color:white;
-border-radius:8px;
-padding:10px 18px;
-border:none;
-margin:10px;
-cursor:pointer;
-font-size:15px;
-}
-
-button:hover{
-background:#1d4ed8;
-}
-
-/* mobile */
-
-@media(max-width:700px){
-
+/* ── card ── */
 .card{
-margin:20px;
-padding:25px;
+  background:var(--card);
+  border-radius:20px;
+  padding:clamp(28px,6vw,52px) clamp(24px,5vw,48px);
+  max-width:680px;
+  width:100%;
+  box-shadow:
+    0 0 0 1px rgba(200,169,110,0.15),
+    0 20px 60px rgba(0,0,0,0.5),
+    0 4px 16px rgba(0,0,0,0.3);
+  position:relative;
+  overflow:hidden;
+  animation:cardIn 0.6s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
 }
 
+/* top gold bar */
+.card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+/* ── title ── */
 .title{
-font-size:26px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(26px,6vw,38px);
+  font-weight:600;
+  text-align:center;
+  color:var(--green);
+  margin-bottom:clamp(16px,4vw,28px);
+  line-height:1.2;
+  letter-spacing:-0.02em;
+}
+.title.pink{color:#d63384;}
+
+/* ── body text ── */
+.card p{
+  font-size:clamp(15px,3.5vw,17px);
+  line-height:1.75;
+  color:var(--text);
+  margin-bottom:clamp(10px,2.5vw,16px);
+  font-weight:300;
+}
+
+/* ── arrows ── */
+.point{
+  font-size:clamp(15px,3.5vw,17px);
+  line-height:1.75;
+  color:var(--text);
+  margin-bottom:clamp(10px,2.5vw,16px);
+  padding-left:clamp(12px,3vw,20px);
+  position:relative;
+  font-weight:300;
+}
+.point::before{
+  content:'→';
+  position:absolute;
+  left:0;
+  color:var(--gold);
+  font-weight:500;
+}
+
+/* ── quote ── */
+.quote{
+  border-left:3px solid var(--gold);
+  padding:clamp(12px,3vw,18px) clamp(16px,4vw,24px);
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:clamp(16px,3.8vw,20px);
+  color:var(--soft);
+  margin:clamp(14px,3.5vw,24px) 0;
+  background:linear-gradient(135deg,rgba(200,169,110,0.05),transparent);
+  border-radius:0 8px 8px 0;
+  line-height:1.6;
+}
+
+/* ── center ── */
+.center{text-align:center;}
+
+/* ── divider ── */
+.divider{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:clamp(16px,4vw,24px) 0;
+  opacity:0.3;
+}
+.divider::before,.divider::after{
+  content:'';flex:1;
+  height:1px;
+  background:var(--gold);
+}
+.divider span{color:var(--gold);font-size:12px;}
+
+/* ── buttons ── */
+.btn-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:clamp(20px,5vw,32px);
 }
 
 button{
-display:block;
-width:100%;
+  width:100%;
+  background:linear-gradient(135deg,var(--green),#0d9640);
+  color:white;
+  border-radius:10px;
+  padding:clamp(12px,3vw,15px) clamp(16px,4vw,22px);
+  border:none;
+  cursor:pointer;
+  font-size:clamp(14px,3.2vw,16px);
+  font-family:'DM Sans',sans-serif;
+  font-weight:500;
+  letter-spacing:0.01em;
+  transition:all 0.2s ease;
+  box-shadow:0 4px 12px rgba(10,122,52,0.25);
+  text-align:center;
+  line-height:1.3;
+}
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(10,122,52,0.35);
+}
+button:active{transform:translateY(0);}
+
+button.secondary{
+  background:transparent;
+  color:var(--soft);
+  border:1.5px solid rgba(74,74,106,0.25);
+  box-shadow:none;
+}
+button.secondary:hover{
+  background:rgba(74,74,106,0.05);
+  box-shadow:none;
 }
 
+/* ── mam photo ── */
+.photo-wrap{
+  display:flex;
+  justify-content:center;
+  margin:clamp(20px,5vw,32px) 0;
+}
+.photo-wrap img{
+  width:clamp(140px,35vw,190px);
+  height:clamp(140px,35vw,190px);
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center top;
+  border:3px solid var(--gold);
+  box-shadow:0 8px 32px rgba(200,169,110,0.3);
+}
+
+/* ── step counter ── */
+.step-tag{
+  display:inline-block;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:12px;
+  opacity:0.8;
+}
+
+/* ── final verse ── */
+.verse{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(17px,4vw,22px);
+  line-height:1.8;
+  color:var(--soft);
+  text-align:center;
+  font-style:italic;
+  margin:clamp(16px,4vw,24px) 0;
+}
+.verse b{
+  color:var(--text);
+  font-style:normal;
+  font-weight:600;
+  display:block;
+  margin-top:8px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="heart">❤</div>
-<div class="heart">❤</div>
-<div class="heart">❤</div>
-<div class="heart">❤</div>
+<!-- stars -->
+<div class="stars" id="stars"></div>
+
+<!-- hearts -->
+<div class="hearts-wrap" id="hearts"></div>
 
 <div class="container">
-    <div id="app"></div>
+  <div id="app"></div>
 </div>
 
 <script>
 
-let step=0
-
-function go(s){
-step=s
-render()
+/* ── generate stars ── */
+const starsEl=document.getElementById('stars');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${3+Math.random()*5}s;--delay:${Math.random()*6}s;--op:${0.3+Math.random()*0.7}`;
+  starsEl.appendChild(s);
 }
+
+/* ── generate hearts ── */
+const heartsEl=document.getElementById('hearts');
+const positions=[8,22,38,55,70,85];
+positions.forEach((left,i)=>{
+  const h=document.createElement('div');
+  h.className='heart';
+  h.textContent='❤';
+  h.style.cssText=`left:${left}%;--dur:${13+i*2}s;--delay:${i*2.2}s`;
+  heartsEl.appendChild(h);
+});
+
+/* ── app ── */
+let step=0;
+
+function go(s){step=s;render();}
 
 function render(){
+  let html='';
 
-let html=""
+  if(step===0){
+    html=`<div class="card">
+      <div class="title">I Met A Rare Human Being</div>
+      <div class="divider"><span>✦</span></div>
+      <p>-And strangely enough…</p>
+      <p> it turned out to be you, ma'am.</p>
+      <p>But before I explain why...</p>
+      <p>I have one question.</p>
+      <div class="btn-wrap">
+        <button onclick="go(3)">Shall I tell you why? (click here)</button>
+        <button class="secondary" onclick="go(1)">Maybe another time (click here)</button>
+      </div>
+    </div>`;
+  }
 
-if(step==0){
+  else if(step===1){
+    html=`<div class="card center">
+      <p>That answer sounds exactly like you ma'am.</p>
+      <p>But I waited years to explain this.</p>
+      <p>Maybe give it 3 minutes, please?</p>
+      <div class="btn-wrap">
+        <button onclick="go(3)">Alright… tell me</button>
+        <button class="secondary" onclick="go(2)">Still not now</button>
+      </div>
+    </div>`;
+  }
 
-html+=`
-<div class="card">
-<div class="title">I Met A Rare Human Being</div>
+  else if(step===2){
+    html=`<div class="card center">
+      <p>Right... this time there is only one option left.</p>
+      <p>You successfully escaped until now ma'am but not anymore since I am going to tell the story anyway.</p>
+      <div class="btn-wrap">
+        <button onclick="go(3)">Ok fine, tell me the story</button>
+      </div>
+    </div>`;
+  }
 
-<p>-And strangely enough…</p>
-<p> it turned out to be you, ma'am.</p>
+  else if(step===3){
+    html=`<div class="card">
+      <div class="step-tag">Chapter One</div>
+      <div class="title">Beginning of the Story</div>
+      <p>Like many meaningful stories, this one also began with a little confusion.</p>
+      <p>In the beginning, I respected you. But I did not fully understand you.</p>
+      <div class="btn-wrap">
+        <button onclick="go(4)">Click here to see what I noticed</button>
+      </div>
+    </div>`;
+  }
 
-<p>But before I explain why...</p>
-<p>I have one question.</p>
+  else if(step===4){
+    html=`<div class="card">
+      <div class="step-tag">Chapter Two</div>
+      <div class="title">The Confusion I Had in the Beginning</div>
+      <div class="point">I had seen good teachers before you in my life ma'am, who delivered subjects clearly and kindly but I had never seen someone who carried student's futures with such seriousness ma'am.</div>
+      <div class="point">When you solved doubts in groups instead of individually, I wondered why. Later I understood, you were trying to clear as many minds as possible within limited time.</div>
+      <div class="point">When you said I would regret leaving your section, I questioned it. With time, I realized you simply wanted me to become part of the best version of myself.</div>
+      <div class="btn-wrap">
+        <button onclick="go(5)">Click here to see when my doubts turned into respect, ma'am</button>
+      </div>
+    </div>`;
+  }
 
-<div class="center">
-<button onclick="go(3)">Shall I tell you why? (click here)</button>
-<button onclick="go(1)">Maybe another time (click here)</button>
-</div>
+  else if(step===5){
+    html=`<div class="card">
+      <div class="step-tag">Chapter Three</div>
+      <div class="title">When Doubts Disappeared</div>
+      <p>Things I noticed in my journey with you, ma'am:</p>
+      <div class="point">You had dengue, yet you came to class.</div>
+      <div class="point">You sat from 9:00 a.m. to 9:00 p.m. for students who were struggling to pass 11th standard.</div>
+      <div class="point">When doctors asked you to rest because of leg pain, you still continued teaching. That's who you are ma'am.</div>
+      <div class="point">During corona, you taught students even from a car and from a hospital.</div>
+      <div class="point">I still remember one class you taught under a tree, ma'am. Now whenever I think about it, I smile to myself, wondering why that moment stayed so clearly in my memory.</div>
+      <p>These incidents erased my doubts and deepened my respect for you, making me want to understand you even better.</p>
+      <div class="btn-wrap">
+        <button onclick="go(6)">What helped me understand you the most?</button>
+      </div>
+    </div>`;
+  }
 
-</div>
-`
+  else if(step===6){
+    html=`<div class="card">
+      <div class="step-tag">Chapter Four</div>
+      <div class="title">The Values You Instilled</div>
+      <div class="point">When you entered class, everything became serious. No unnecessary talking. No wasted time. Silence during study hours.<br><br>At first, it felt strict. Later, I understood you were building focus.</div>
+      <div class="point">You followed up every week. You reminded us of responsibility.<br><br>Before making decisions, you would enquire, observe, verify and then act.<br><br>You never reacted blindly. You dealt with students differently, according to what each person needed.</div>
+      <div class="point">Your words still stay with me:</div>
+      <div class="quote">
+        "Think like a boy, work like a girl."<br>
+        "Don't just work hard — work smart."<br>
+        "Health comes first, then education."
+      </div>
+      <p>You did not just teach mathematics. You shaped my thinking.</p>
+      <div class="btn-wrap">
+        <button onclick="go(7)">The day that changed how I see life</button>
+      </div>
+    </div>`;
+  }
+
+  else if(step===7){
+    html=`<div class="card">
+      <div class="step-tag">Chapter Five</div>
+      <div class="title">The Day I Truly Understood Life</div>
+      <p>After my results, I apologized for not meeting your expectations.</p>
+      <div class="quote">"There is no use shouting now. I shouted before so you could improve."</div>
+      <p><strong>You speak only when it matters, and every word you say carries meaning.</strong></p>
+      <div class="point">On that same day, when our batch did not achieve the results you had worked for, I saw tears in your eyes.</div>
+      <p><strong>You had sacrificed time, comfort, and health. You had given your full effort. Yet the outcome was not what you hoped for.</strong></p>
+      <p>Hard work does not always guarantee the result we expect. But it is never wasted.</p>
+      <p>Watching you accept that moment with dignity changed how I see both success and failure.</p>
+      <div class="btn-wrap">
+        <button onclick="go(8)">Why you are rare?</button>
+      </div>
+    </div>`;
+  }
+
+  else if(step===8){
+    html=`<div class="card">
+      <div class="step-tag">Chapter Six</div>
+      <div class="title">Answer I Found For A Question I Carried For Years</div>
+      <p>I used to ask myself sometimes, In a world where most people live only for themselves, is it possible to live for others?</p>
+      <p>Soldiers in the Indian Army sacrifice for the country. That kind of courage is admirable. I know I may never become a soldier. But I also did not want to live only for myself.</p>
+      <p>Watching you gave me another answer. You chose to serve through education.</p>
+      <div class="point">You became a parent to students who were not your own.</div>
+      <div class="point">You balanced discipline with care.</div>
+      <div class="point">You asked students to play during breaks.</div>
+      <div class="point">You encouraged yoga during exams so that we control our stress.</div>
+      <div class="point">You carried seriousness without losing humanity.</div>
+      <div class="btn-wrap">
+        <button onclick="go(9)">What you left in me?</button>
+      </div>
+    </div>`;
+  }
+
+  else if(step===9){
+    html=`<div class="card center">
+      <div class="step-tag">Chapter Seven</div>
+      <div class="title">What You Left In Me</div>
+      <p>Somewhere in your classroom, I learned that sincerity, discipline, and caring for others give life its real meaning, because helping others is what truly makes life purposeful.</p>
+      <div class="btn-wrap">
+        <button onclick="go(10)">Finally, Final page</button>
+      </div>
+    </div>`;
+  }
+
+  else if(step===10){
+    html=`<div class="card center">
+      <div class="title pink">Happy Birthday, Ma'am</div>
+      <div class="photo-wrap">
+        <img src="mam.jpg" alt="Ma'am">
+      </div>
+      <div class="divider"><span>✦</span></div>
+      <div class="verse">
+        Some people teach chapters.<br>
+        Some build chapters in others' lives.<br>
+        <b>You built one in mine.</b>
+      </div>
+      <div class="divider"><span>✦</span></div>
+      <p>Thank you for being the rare human being I met.</p>
+      <p>Also, Thank you for clicking through every page and completing my little story.</p>
+    </div>`;
+  }
+
+  document.getElementById('app').innerHTML=html;
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-else if(step==1){
-
-html+=`
-<div class="card center">
-
-<p>That answer sounds exactly like you ma'am.</p>
-
-<p>But I waited years to explain this.</p>
-
-<p>Maybe give it 3 minutes, please?</p>
-
-<button onclick="go(3)">Alright… tell me</button>
-<button onclick="go(2)">Still not now</button>
-
-</div>
-`
-}
-
-else if(step==2){
-
-html+=`
-<div class="card center">
-
-<p>Right... this time there is only one option left.</p>
-
-<p>You successfully escaped until now ma'am but not anymore since I am going to tell the story anyway.</p>
-
-<button onclick="go(3)">Ok fine, tell me the story</button>
-
-</div>
-`
-}
-
-else if(step==3){
-
-html+=`
-<div class="card">
-
-<div class="title">Beginning of the Story</div>
-
-<p>Like many meaningful stories, this one also began with a little confusion.</p>
-
-<p>In the beginning, I respected you. But I did not fully understand you.</p>
-
-<button onclick="go(4)">Click here to see what I noticed</button>
-
-</div>
-`
-}
-
-else if(step==4){
-
-html+=`
-<div class="card">
-
-<div class="title">The Confusion I Had in the Beginning</div>
-
-<p>→ I had seen good teachers before you in my life ma'am, who delivered subjects clearly and kindly but I had never seen someone who carried student's futures with such seriousness ma'am.</p>
-
-<p>→ When you solved doubts in groups instead of individually, I wondered why. Later I understood, you were trying to clear as many minds as possible within limited time.</p>
-
-<p>→ When you said I would regret leaving your section, I questioned it. With time, I realized you simply wanted me to become part of the best version of myself.</p>
-
-<button onclick="go(5)">Click here to see when my doubts turned into respect, ma'am</button>
-
-</div>
-`
-}
-
-else if(step==5){
-
-html+=`
-<div class="card">
-
-<div class="title">When Doubts Disappeared</div>
-
-<p>Things I noticed in my journey with you, ma'am:</p>
-
-<p>→ You had dengue, yet you came to class.</p>
-
-<p>→ You sat from 9:00 a.m. to 9:00 p.m. for students who were struggling to pass 11th standard.</p>
-
-<p>→ When doctors asked you to rest because of leg pain, you still continued teaching. That's who you are ma'am.</p>
-
-<p>→ During corona, you taught students even from a car and from a hospital.</p>
-
-<p>→ I still remember one class you taught under a tree, ma'am. Now whenever I think about it, I smile to myself, wondering why that moment stayed so clearly in my memory.</p>
-
-<p>These incidents erased my doubts and deepened my respect for you, making me want to understand you even better.</p>
-
-<button onclick="go(6)">What helped me understand you the most?</button>
-
-</div>
-`
-}
-
-else if(step==6){
-
-html+=`
-<div class="card">
-
-<div class="title">The Values You Instilled</div>
-
-<p>→ When you entered class, everything became serious. No unnecessary talking. No wasted time. Silence during study hours.</p>
-
-<p>At first, it felt strict. Later, I understood you were building focus.</p>
-
-<p>→ You followed up every week. You reminded us of responsibility.</p>
-
-<p>Before making decisions, you would enquire, observe, verify and then act.</p>
-
-<p>You never reacted blindly. You dealt with students differently, according to what each person needed.</p>
-
-<p>→ Your words still stay with me:</p>
-
-<div class="quote">
-"Think like a boy, work like a girl."<br>
-"Don't just work hard — work smart."<br>
-"Health comes first, then education."
-</div>
-
-<p>You did not just teach mathematics. You shaped my thinking.</p>
-
-<button onclick="go(7)">The day that changed how I see life</button>
-
-</div>
-`
-}
-
-else if(step==7){
-
-html+=`
-<div class="card">
-
-<div class="title">The Day I Truly Understood Life</div>
-
-<p>After my results, I apologized for not meeting your expectations.</p>
-
-<div class="quote">
-"There is no use shouting now. I shouted before so you could improve."
-</div>
-
-<p><strong>You speak only when it matters, and every word you say carries meaning.</strong></p>
-
-<p>→ On that same day, when our batch did not achieve the results you had worked for, I saw tears in your eyes.</p>
-
-<p><strong>You had sacrificed time, comfort, and health. You had given your full effort. Yet the outcome was not what you hoped for.</strong></p>
-
-<p>Hard work does not always guarantee the result we expect. But it is never wasted.</p>
-
-<p>Watching you accept that moment with dignity changed how I see both success and failure.</p>
-
-<button onclick="go(8)">Why you are rare?</button>
-
-</div>
-`
-}
-
-else if(step==8){
-
-html+=`
-<div class="card">
-
-<div class="title">Answer I Found For A Question I Carried For Years</div>
-
-<p>I used to ask myself sometimes, In a world where most people live only for themselves, is it possible to live for others?</p>
-
-<p>Soldiers in the Indian Army sacrifice for the country. That kind of courage is admirable. I know I may never become a soldier. But I also did not want to live only for myself.</p>
-
-<p>Watching you gave me another answer. You chose to serve through education.</p>
-
-<p>• You became a parent to students who were not your own.</p>
-<p>• You balanced discipline with care.</p>
-<p>• You asked students to play during breaks.</p>
-<p>• You encouraged yoga during exams so that we control our stress.</p>
-<p>• You carried seriousness without losing humanity.</p>
-
-<button onclick="go(9)">What you left in me?</button>
-
-</div>
-`
-}
-
-else if(step==9){
-
-html+=`
-<div class="card center">
-
-<div class="title">What You Left In Me</div>
-
-<p>Somewhere in your classroom, I learned that sincerity, discipline, and caring for others give life its real meaning, because helping others is what truly makes life purposeful.</p>
-
-<button onclick="go(10)">Finally, Final page</button>
-
-</div>
-`
-}
-
-else if(step==10){
-
-html+=`
-<div class="card center">
-
-<div class="title" style="color:#ff2b6b;">Happy Birthday, Ma'am</div>
-
-<img src="mam.jpg" width="180">
-
-<div class="quote">
-Some people teach chapters.<br>
-Some build chapters in others' lives.<br>
-<b>You built one in mine.</b>
-</div>
-
-<p>Thank you for being the rare human being I met.</p>
-
-<p>Also, Thank you for clicking through every page and completing my little story.</p>
-
-</div>
-`
-}
-
-document.getElementById("app").innerHTML=html
-
-}
-
-render()
-
+render();
 </script>
 
 </body>
